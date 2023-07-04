@@ -339,15 +339,18 @@ class _TableCalendarBaseState extends State<TableCalendarBase> {
   DateTime _firstDayOfMonth(DateTime month) {
     debugPrint('_firstDayOfMonth:');
     final jDate = month.toJalali();
-    return DateTime.utc(jDate.year, jDate.month, 1);
+    final jFirstDay = Jalali(jDate.year, jDate.month, 1);
+    return jFirstDay.toUtcDateTime();
   }
 
   DateTime _lastDayOfMonth(DateTime month) {
     final jDate = month.toJalali();
     debugPrint('_lastDayOfMonth:');
-    final date = jDate.month < 12
-        ? DateTime.utc(jDate.year, jDate.month + 1, 1)
-        : DateTime.utc(jDate.year + 1, 1, 1);
+    final jLastDay = Jalali(jDate.year, jDate.month, 1);
+
+    final date = jLastDay.month < 12
+        ? DateTime.utc(jLastDay.year, jLastDay.month + 1, 1)
+        : DateTime.utc(jLastDay.year + 1, 1, 1);
     return date.subtract(const Duration(days: 1));
   }
 }
