@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import 'package:flutter/material.dart';
+import 'package:shamsi_date/shamsi_date.dart';
 import 'package:simple_gesture_detector/simple_gesture_detector.dart';
 
 import 'shared/utils.dart';
@@ -336,13 +337,15 @@ class _TableCalendarBaseState extends State<TableCalendarBase> {
   }
 
   DateTime _firstDayOfMonth(DateTime month) {
-    return DateTime.utc(month.year, month.month, 1);
+    final jDate = month.toJalali();
+    return DateTime.utc(jDate.year, jDate.month, 1);
   }
 
   DateTime _lastDayOfMonth(DateTime month) {
-    final date = month.month < 12
-        ? DateTime.utc(month.year, month.month + 1, 1)
-        : DateTime.utc(month.year + 1, 1, 1);
+    final jDate = month.toJalali();
+    final date = jDate.month < 12
+        ? DateTime.utc(jDate.year, jDate.month + 1, 1)
+        : DateTime.utc(jDate.year + 1, 1, 1);
     return date.subtract(const Duration(days: 1));
   }
 }
