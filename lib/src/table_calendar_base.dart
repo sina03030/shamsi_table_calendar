@@ -340,6 +340,8 @@ class _TableCalendarBaseState extends State<TableCalendarBase> {
     debugPrint('_firstDayOfMonth:');
     final jDate = month.toJalali();
     final jFirstDay = Jalali(jDate.year, jDate.month, 1);
+    print('_firstDayOfMonth : ' + month.toString());
+    print('j_firstDayOfMonth : ' + jFirstDay.toString());
     return jFirstDay.toUtcDateTime();
   }
 
@@ -351,6 +353,11 @@ class _TableCalendarBaseState extends State<TableCalendarBase> {
     final date = jLastDay.month < 12
         ? Jalali(jLastDay.year, jLastDay.month + 1, 1).toUtcDateTime()
         : Jalali(jLastDay.year + 1, 1, 1).toUtcDateTime();
-    return date.subtract(const Duration(days: 1));
+    final subtractedDate = date.subtract(const Duration(days: 1));
+    print("date_lastDayOfMonth : " + date.toString());
+    print("sub_lastDayOfMonth : " + subtractedDate.toString());
+    print("jsub_lastDayOfMonth : " + subtractedDate.toJalali().toString());
+    print(subtractedDate.toString());
+    return subtractedDate;
   }
 }
