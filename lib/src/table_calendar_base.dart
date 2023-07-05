@@ -280,8 +280,8 @@ class _TableCalendarBaseState extends State<TableCalendarBase> {
   }
 
   int _getMonthCount(DateTime first, DateTime last) {
-    final yearDif = last.year - first.year;
-    final monthDif = last.month - first.month;
+    final yearDif = last.toJalali().year - first.toJalali().year;
+    final monthDif = last.toJalali().month - first.toJalali().month;
 
     return yearDif * 12 + monthDif;
   }
@@ -315,7 +315,8 @@ class _TableCalendarBaseState extends State<TableCalendarBase> {
   }
 
   int _getDaysBefore(DateTime firstDay) {
-    return (firstDay.weekday + 7 - getWeekdayNumber(widget.startingDayOfWeek)) %
+    final jFirstDay = firstDay.toJalali();
+    return (jFirstDay.weekDay + 7 - getWeekdayNumber(widget.startingDayOfWeek)) %
         7;
   }
 
