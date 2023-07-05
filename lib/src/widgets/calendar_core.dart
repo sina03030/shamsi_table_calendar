@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import 'package:flutter/material.dart';
+import 'package:shamsi_date/shamsi_date.dart';
 
 import '../shared/utils.dart';
 import 'calendar_page.dart';
@@ -143,7 +144,7 @@ class CalendarCore extends StatelessWidget {
   }
 
   int _getMonthCount(DateTime first, DateTime last) {
-    final yearDif = last.year - first.year;
+    final yearDif = last.toJalali().year - first.toJalali().year;
     final monthDif = last.month - first.month;
 
     return yearDif * 12 + monthDif;
@@ -260,6 +261,7 @@ class CalendarCore extends StatelessWidget {
   }
 
   List<DateTime> _daysInRange(DateTime first, DateTime last) {
+    throw Exception('');
     final dayCount = last.difference(first).inDays + 1;
     return List.generate(
       dayCount,
@@ -273,14 +275,24 @@ class CalendarCore extends StatelessWidget {
   }
 
   DateTime _firstDayOfMonth(DateTime month) {
-    return DateTime.utc(month.year, month.month, 1);
+    final jmonth = month.toJalali();
+    return Jalali(jmonth.year, jmonth.month, 1).toUtcDateTime();
   }
 
   DateTime _lastDayOfMonth(DateTime month) {
-    final date = month.month < 12
-        ? DateTime.utc(month.year, month.month + 1, 1)
-        : DateTime.utc(month.year + 1, 1, 1);
-    return date.subtract(const Duration(days: 1));
+    final jDate = month.toJalali();
+    debugPrint('_lastDayOfMonth:');
+    final jLastDay = Jalali(jDate.year, jDate.month, 1);
+    // final lastDay = jLastDay.toDateTime();
+    final date = jLastDay.month < 12
+        ? Jalali(jLastDay.year, jLastDay.month + 1, 1).toUtcDateTime()
+        : Jalali(jLastDay.year + 1, 1, 1).toUtcDateTime();
+    final subtractedDate = date.subtract(const Duration(days: 1));
+    print("date_lastDayOfMonth : " + date.toString());
+    print("sub_lastDayOfMonth : " + subtractedDate.toString());
+    print("jsub_lastDayOfMonth : " + subtractedDate.toJalali().toString());
+    print(subtractedDate.toString());
+    return subtractedDate;
   }
 
   int _getRowCount(CalendarFormat format, DateTime focusedDay) {
@@ -304,13 +316,13 @@ class CalendarCore extends StatelessWidget {
   }
 
   int _getDaysBefore(DateTime firstDay) {
-    return (firstDay.weekday + 7 - getWeekdayNumber(startingDayOfWeek)) % 7;
+    return (firstDay.toJalali().weekDay + 7 - getWeekdayNumber(startingDayOfWeek)) % 7;
   }
 
   int _getDaysAfter(DateTime lastDay) {
     int invertedStartingWeekday = 8 - getWeekdayNumber(startingDayOfWeek);
 
-    int daysAfter = 7 - ((lastDay.weekday + invertedStartingWeekday) % 7);
+    int daysAfter = 7 - ((lastDay.toJalali().weekDay + invertedStartingWeekday) % 7);
     if (daysAfter == 7) {
       daysAfter = 0;
     }

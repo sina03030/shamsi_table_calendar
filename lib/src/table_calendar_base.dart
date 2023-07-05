@@ -287,6 +287,7 @@ class _TableCalendarBaseState extends State<TableCalendarBase> {
   }
 
   int _getWeekCount(DateTime first, DateTime last) {
+
     return last.difference(_firstDayOfWeek(first)).inDays ~/ 7;
   }
 
@@ -324,7 +325,7 @@ class _TableCalendarBaseState extends State<TableCalendarBase> {
     int invertedStartingWeekday =
         8 - getWeekdayNumber(widget.startingDayOfWeek);
 
-    int daysAfter = 7 - ((lastDay.weekday + invertedStartingWeekday) % 7);
+    int daysAfter = 7 - ((lastDay.toJalali().weekDay + invertedStartingWeekday) % 7);
     if (daysAfter == 7) {
       daysAfter = 0;
     }
