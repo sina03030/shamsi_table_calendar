@@ -261,7 +261,6 @@ class CalendarCore extends StatelessWidget {
   }
 
   List<DateTime> _daysInRange(DateTime first, DateTime last) {
-    throw Exception('');
     final dayCount = last.difference(first).inDays + 1;
     return List.generate(
       dayCount,
